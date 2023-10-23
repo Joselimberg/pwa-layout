@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model song {
+  id      Int    @id @default(autoincrement())
+  name    String @db.VarChar(50)
+  links   Json
+  level   String @default("0") @db.Char(1)
+  id_user Int
+  user    user   @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "song_FK")
+
+  @@index([id_user], map: "song_FK")
+}
+
+model user {
+  id       Int     @id @default(autoincrement())
+  name     String  @db.VarChar(100)
+  email    String  @db.VarChar(100)
+  password String  @db.VarChar(100)
+  status   Boolean @default(true)
+  role     String  @default("c") @db.Char(1)
+  song     song[]
+}
