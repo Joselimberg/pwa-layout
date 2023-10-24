@@ -6,6 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         pageIndex,
         pageSize,
         name,
+        artist,
         level,
     } = req.query;
 
@@ -18,12 +19,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 contains: name as string,
             };
         }
+        if (artist) {
+
+            filterOptions.artist = {
+                name: {
+                    contains: artist as string
+                }
+            };
+        }
         if (level) {
             filterOptions.level = {
                 contains: level as string,
             };
         }
-        
+
 
         const skip = Number(pageIndex) * Number(pageSize);
         const take = Number(pageSize);
@@ -32,9 +41,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             where: filterOptions, // Aplicar los filtros aquí
             skip,
             take,
+            include: {
+                artist: true
+            }
         });
 
-        
+
 
         const totalSongs = await prisma.song.count({ where: filterOptions });
         const totalPages = Math.ceil(totalSongs / take);

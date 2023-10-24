@@ -11,6 +11,10 @@ export const columns: ColumnDef<ISong>[] = [
     header: "Nombre",
   },
   {
+    accessorKey: "artist.name",
+    header: "Artista",
+  },
+  {
     accessorKey: "level",
     header: "Nivel",
   },

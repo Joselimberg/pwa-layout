@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ClientLayout } from "../../components/layouts";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -11,17 +11,15 @@ import { signIn, getSession } from "next-auth/react";
 import Image from "next/image";
 
 import { AuthContext } from "../../context/auth";
-import {
-  isEmail,
-  isValidCurp,
-  isValidPhone,
-  isValidRfc,
-} from "../../utils/validations";
 import { GetServerSideProps } from "next";
 import { exampleApi } from "../../api";
 import Swal from "sweetalert2";
 
-const UsuariosRegisterPage = () => {
+interface SongRegisterPageProps {
+  id_user: number;
+}
+
+const SongRegisterPage: React.FC<SongRegisterPageProps> = ({ id_user }) => {
   const router = useRouter();
 
   const [showError, setShowError] = useState(false);
@@ -42,13 +40,17 @@ const UsuariosRegisterPage = () => {
     setShowError(false);
     setShowLinkError(false);
 
-    linklist.length === 0 && setShowLinkError(true);
-    console.log(linklist);
-
-    return;
+    if (linklist.length === 0) {
+      setShowLinkError(true);
+      return;
+    }
 
     try {
-      await exampleApi.post("/song/register", { ...form_data });
+      await exampleApi.post("/song/register", {
+        ...form_data,
+        linklist,
+        id_user,
+      });
 
       // La llamada a la API se realizó con éxito, mostramos la alerta de SweetAlert2
       await Swal.fire({
@@ -115,6 +117,29 @@ const UsuariosRegisterPage = () => {
                 {!!errors.name ? (
                   <div className="mb-4">
                     <span className="text-red-700">{errors.name.message}</span>
+                  </div>
+                ) : (
+                  <div className="mb-4"></div>
+                )}
+
+                <div>
+                  {/* Artista */}
+                  <label htmlFor="artist" className="block text-lg">
+                    Artista
+                  </label>
+                  <input
+                    type="text"
+                    id="artist"
+                    className="form-input w-full border-2 border-gray-300 rounded px-1 py-1"
+                    placeholder="Artista"
+                    {...register("artist", {
+                      required: "Ingrese un valor válido",
+                    })}
+                  />
+                </div>
+                {!!errors.artist ? (
+                  <div className="mb-4">
+                    <span className="text-red-700">{errors.artist.message}</span>
                   </div>
                 ) : (
                   <div className="mb-4"></div>
@@ -245,9 +270,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     };
   }
 
+  const id_user = (session as any).user.id;
+
   return {
-    props: {},
+    props: { id_user },
   };
 };
 
-export default UsuariosRegisterPage;
+export default SongRegisterPage;

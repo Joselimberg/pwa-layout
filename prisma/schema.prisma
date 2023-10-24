@@ -8,14 +8,17 @@ datasource db {
 }
 
 model song {
-  id      Int    @id @default(autoincrement())
-  name    String @db.VarChar(50)
-  links   Json
-  level   String @default("0") @db.Char(1)
-  id_user Int
-  user    user   @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "song_FK")
+  id        Int     @id @default(autoincrement())
+  name      String  @db.VarChar(50)
+  links     Json
+  level     String  @default("0") @db.Char(1)
+  id_user   Int
+  id_artist Int?
+  user      user    @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "song_FK")
+  artist    artist? @relation(fields: [id_artist], references: [id], map: "song_FK_1")
 
   @@index([id_user], map: "song_FK")
+  @@index([id_artist], map: "song_FK_1")
 }
 
 model user {
@@ -26,4 +29,10 @@ model user {
   status   Boolean @default(true)
   role     String  @default("c") @db.Char(1)
   song     song[]
+}
+
+model artist {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(50)
+  song song[]
 }

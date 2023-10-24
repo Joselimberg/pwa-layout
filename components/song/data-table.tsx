@@ -42,6 +42,7 @@ export function DataTable<TData, TValue>({
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<ISong | null>(null);
   const [filterName, setFilterName] = useState("");
+  const [filterArtist, setFilterArtist] = useState("");
   const [filterLevel, setFilterLevel] = useState("");
   
 
@@ -52,6 +53,7 @@ export function DataTable<TData, TValue>({
     pageSize,
     filterName,
     filterLevel,
+    filterArtist
   ]);
 
   const fetchData = async () => {
@@ -61,6 +63,7 @@ export function DataTable<TData, TValue>({
         pageSize,
         name: filterName,
         level: filterLevel,
+        artist: filterArtist
       });
 
       const response = await fetch(`/api/song/getall?${queryParams}`);
@@ -121,6 +124,15 @@ export function DataTable<TData, TValue>({
                               value={filterName}
                               onChange={(e) => setFilterName(e.target.value)}
                               placeholder="Filtrar por Nombre"
+                            />
+                          )}
+                          {(header.column.columnDef as any).accessorKey ===
+                            "artist.name" && (
+                            <input
+                              type="text"
+                              value={filterArtist}
+                              onChange={(e) => setFilterArtist(e.target.value)}
+                              placeholder="Filtrar por Artista"
                             />
                           )}
                           {(header.column.columnDef as any).accessorKey ===
