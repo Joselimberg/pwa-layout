@@ -1,46 +1,59 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { prisma } from '../../../db/prisma';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { prisma } from '../../../../db/prisma';
 
-type Data = { message: string }
+type Data = { message: string };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     switch (req.method) {
-        case 'POST':
-            return registerSong(req, res)
+        case 'PUT':
+            return updateSong(req, res);
 
         default:
             res.status(400).json({
                 message: 'Bad request'
-            })
+            });
     }
 }
 
-const registerSong = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    console.log("Entrando al controller");
+const updateSong = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     const {
         name,
         artist,
         level,
-        id_user,
         linklist,
+        id_user,
     } = req.body;
 
 
+    const song_id = req.query.id;
+    const existingSong = await prisma.song.findUnique({
+        where: {
+            id: parseInt(song_id as string),
+        },
+    });
 
-    const existeSong = await prisma.song.findFirst({
+    if (!existingSong) {
+        return res.status(404).json({
+            message: 'Song no encontrada'
+        });
+    }
+
+    const existingSongtWithSameName = await prisma.song.findFirst({
         where: {
             name,
             artist: {
                 name: artist
             },
             id_user: parseInt(id_user as string),
-        }
+            NOT: {
+                id: parseInt(song_id as string),
+            },
+        },
     });
 
-    if (existeSong) {
+    if (existingSongtWithSameName) {
         return res.status(400).json({
-            message: 'Ya existe una song con ese nombre y artista'
+            message: 'La canción que trata de ingresar ya esta registrada',
         });
     }
 
@@ -52,57 +65,50 @@ const registerSong = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
     });
 
     if (existeArtist) {
-
         try {
-            await prisma.song.create({
+            await prisma.song.update({
+                where: {
+                    id: parseInt(song_id as string),
+                },
                 data: {
                     name,
                     artist: {
                         connect: { id: existeArtist.id }
                     },
                     level,
-                    user: {
-                        connect: { id: id_user }
-                    }
-                    ,
                     links: linklist,
                 },
             });
-
         } catch (error) {
             console.log(error);
             return res.status(500).json({
                 message: 'Revisar logs del servidor'
             });
         }
-
-        return res.status(200).json({ message: 'Song registrada correctamente' });
+        return res.status(200).json({ message: 'Song actualizada correctamente' });
 
     } else {
-
         try {
-
             const new_artist = await prisma.artist.create({
                 data: {
                     name: artist,
                     id_user
                 }
-            })
-
-            await prisma.song.create({
+            });
+            await prisma.song.update({
+                where: {
+                    id: parseInt(song_id as string),
+                },
                 data: {
                     name,
                     artist: {
                         connect: { id: new_artist.id }
                     },
                     level,
-                    user: {
-                        connect: { id: id_user }
-                    }
-                    ,
                     links: linklist,
                 },
             });
+
 
         } catch (error) {
             console.log(error);
@@ -111,9 +117,6 @@ const registerSong = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
             });
         }
 
-        return res.status(200).json({ message: 'Song registrada correctamente' });
-
+        return res.status(200).json({ message: 'Song actualizada correctamente' });
     }
-
-
-}
+};

@@ -8,6 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         name,
         artist,
         level,
+        id_user
     } = req.query;
 
     try {
@@ -31,6 +32,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             filterOptions.level = {
                 contains: level as string,
             };
+        }
+
+        if (id_user) {
+            filterOptions.id_user = Number(id_user);
         }
 
 

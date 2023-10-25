@@ -23,16 +23,18 @@ import {
 } from "../ui/table";
 
 import { Button } from "../ui/button";
-// import ClientDetailsModal from "./ClientDetailsModal";
-// import ClientEditModal from "./ClientEditModal";
+import SongEditModal from "./SongEditModal";
+import SongDetailsModal from "./SongDetailsModal";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   label?: string;
+  id_user: number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
+  id_user,
 }: DataTableProps<TData, TValue>) {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageLimit, setPageLimit] = useState(0);
@@ -44,17 +46,10 @@ export function DataTable<TData, TValue>({
   const [filterName, setFilterName] = useState("");
   const [filterArtist, setFilterArtist] = useState("");
   const [filterLevel, setFilterLevel] = useState("");
-  
 
   useEffect(() => {
     fetchData();
-  }, [
-    pageIndex,
-    pageSize,
-    filterName,
-    filterLevel,
-    filterArtist
-  ]);
+  }, [pageIndex, pageSize, filterName, filterLevel, filterArtist]);
 
   const fetchData = async () => {
     try {
@@ -63,7 +58,8 @@ export function DataTable<TData, TValue>({
         pageSize,
         name: filterName,
         level: filterLevel,
-        artist: filterArtist
+        artist: filterArtist,
+        id_user,
       });
 
       const response = await fetch(`/api/song/getall?${queryParams}`);
@@ -140,9 +136,7 @@ export function DataTable<TData, TValue>({
                             <input
                               type="text"
                               value={filterLevel}
-                              onChange={(e) =>
-                                setFilterLevel(e.target.value)
-                              }
+                              onChange={(e) => setFilterLevel(e.target.value)}
                               placeholder="Filtrar por Nivel"
                             />
                           )}
@@ -201,7 +195,7 @@ export function DataTable<TData, TValue>({
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No results.
+                    Sin resultados.
                   </TableCell>
                 </TableRow>
               )}
@@ -231,20 +225,20 @@ export function DataTable<TData, TValue>({
           </Button>
         </div>
       </div>
-      {/* {selectedRecord && (
-        <ClientDetailsModal
+      {selectedRecord && (
+        <SongDetailsModal
           showModal={showDetailsModal}
           onCloseModal={handleCloseModal}
           selectedRecord={selectedRecord}
         />
       )}
       {selectedRecord && (
-        <ClientEditModal
+        <SongEditModal
           showModal={showEditModal}
           onCloseModal={handleCloseModal}
           selectedRecord={selectedRecord}
         />
-      )} */}
+      )}
     </>
   );
 }

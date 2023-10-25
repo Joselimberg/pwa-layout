@@ -22,17 +22,22 @@ model song {
 }
 
 model user {
-  id       Int     @id @default(autoincrement())
-  name     String  @db.VarChar(100)
-  email    String  @db.VarChar(100)
-  password String  @db.VarChar(100)
-  status   Boolean @default(true)
-  role     String  @default("c") @db.Char(1)
+  id       Int      @id @default(autoincrement())
+  name     String   @db.VarChar(100)
+  email    String   @db.VarChar(100)
+  password String   @db.VarChar(100)
+  status   Boolean  @default(true)
+  role     String   @default("c") @db.Char(1)
+  artist   artist[]
   song     song[]
 }
 
 model artist {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(50)
-  song song[]
+  id      Int    @id @default(autoincrement())
+  name    String @db.VarChar(50)
+  id_user Int?
+  user    user?  @relation(fields: [id_user], references: [id], map: "artist_FK")
+  song    song[]
+
+  @@index([id_user], map: "artist_FK")
 }

@@ -6,7 +6,11 @@ import { columns } from "../../components/song/columns";
 import { getSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
 
-const SongsPage = () => {
+interface SongsPageProps {
+  id_user: number;
+}
+
+const SongsPage: React.FC<SongsPageProps> = ({ id_user }) => {
   const router = useRouter();
   return (
     <ClientLayout title="Clientes">
@@ -23,7 +27,7 @@ const SongsPage = () => {
         </button>
       </div>
       <div className="flex flex-row justify-start border overflow-x-scroll mt-2">
-        <DataTable columns={columns} />
+        <DataTable columns={columns} id_user={id_user} />
       </div>
     </ClientLayout>
   );
@@ -33,9 +37,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const session = await getSession({ req });
   console.log(session);
 
-  const role = (session as any).user.role;
+  const id_user = (session as any).user.id;
 
-  if (role !== "a") {
+  if (!session) {
     return {
       redirect: {
         destination: "/",
@@ -45,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
 
   return {
-    props: {},
+    props: { id_user },
   };
 };
 
