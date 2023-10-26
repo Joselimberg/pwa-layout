@@ -64,9 +64,9 @@ const SongEditModal: React.FC<SongEditModalProps> = ({
     if (result.isConfirmed) {
       try {
         // Obtener el ID del pago seleccionado
-        const pagoId = selectedRecord?.id;
+        const song_id = selectedRecord?.id;
 
-        await exampleApi.delete(`/song/delete/${pagoId}`);
+        await exampleApi.delete(`/song/delete/${song_id}`,);
 
         // Mostrar una alerta de éxito
         await Swal.fire({
@@ -173,7 +173,7 @@ const SongEditModal: React.FC<SongEditModalProps> = ({
               className="btn-primary px-5 text-base bg-red-500 text-white hover:bg-red-800 mb-3"
               onClick={handleDeleteSong}
             >
-              Eliminar Pago
+              Eliminar canción
             </button>
           </div>
           <form
