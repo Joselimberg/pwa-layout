@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import queryString from "query-string";
-import Modal from "react-modal";
 
 import {
   ColumnDef,
@@ -25,6 +24,7 @@ import {
 import { Button } from "../ui/button";
 import SongEditModal from "./SongEditModal";
 import SongDetailsModal from "./SongDetailsModal";
+import ArtistEditModal from "./ArtistEditModal";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -41,6 +41,7 @@ export function DataTable<TData, TValue>({
   const [pageSize, setPageSize] = useState(6);
   const [tableData, setTableData] = useState<ISong[]>([]);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showArtistModal, setShowArtistModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<ISong | null>(null);
   const [filterName, setFilterName] = useState("");
@@ -83,6 +84,11 @@ export function DataTable<TData, TValue>({
     setShowEditModal(true);
   };
 
+  const handleArtistEdit = (rowData: ISong) => {
+    setSelectedRecord(rowData);
+    setShowArtistModal(true);
+  };
+
   const handleDetails = (rowData: ISong) => {
     setSelectedRecord(rowData);
     setShowDetailsModal(true);
@@ -93,6 +99,7 @@ export function DataTable<TData, TValue>({
     setSelectedRecord(null);
     setShowEditModal(false);
     setShowDetailsModal(false);
+    setShowArtistModal(false);
   };
 
   console.log(table.getCanNextPage());
@@ -176,6 +183,19 @@ export function DataTable<TData, TValue>({
                             </div>
                           </TableCell>
                         );
+                      } else if (cell.column.id === "edit_artist") {
+                        return (
+                          <TableCell key={cell.id}>
+                            <div className="flex flex-row">
+                              <Button
+                                className="btn-primary px-5 text-base bg-blue-500 text-white hover:bg-green-500 mx-1"
+                                onClick={() => handleArtistEdit(row.original as any)}
+                              >
+                                Editar
+                              </Button>
+                            </div>
+                          </TableCell>
+                        );
                       } else {
                         return (
                           <TableCell key={cell.id}>
@@ -235,6 +255,13 @@ export function DataTable<TData, TValue>({
       {selectedRecord && (
         <SongEditModal
           showModal={showEditModal}
+          onCloseModal={handleCloseModal}
+          selectedRecord={selectedRecord}
+        />
+      )}
+      {selectedRecord && (
+        <ArtistEditModal
+          showModal={showArtistModal}
           onCloseModal={handleCloseModal}
           selectedRecord={selectedRecord}
         />

@@ -15,6 +15,10 @@ export const columns: ColumnDef<ISong>[] = [
     header: "Artista",
   },
   {
+    id: "edit_artist",
+    header: "Editar Artista",
+  },
+  {
     accessorKey: "level",
     header: "Nivel",
   },
