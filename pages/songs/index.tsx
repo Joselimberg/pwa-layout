@@ -5,6 +5,7 @@ import { DataTable } from "../../components/song/data-table";
 import { columns } from "../../components/song/columns";
 import { getSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
+import { FaFolderPlus } from "react-icons/fa";
 
 interface SongsPageProps {
   id_user: number;
@@ -18,12 +19,12 @@ const SongsPage: React.FC<SongsPageProps> = ({ id_user }) => {
 
       <div className="flex flex-row justify-start ">
         <button
-          className="btn-primary py-2 px-6 text-3xl bg-blue-500 text-white hover:bg-green-500"
+          className="btn-primary py-2 px-2 text-4xl bg-blue-500 text-white hover:bg-green-500"
           onClick={() => {
             router.push("./songs/registro");
           }}
         >
-          Registrar
+        <FaFolderPlus />
         </button>
       </div>
       <div className="flex flex-row justify-start border overflow-x-scroll mt-2">

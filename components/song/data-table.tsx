@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import queryString from "query-string";
+import { FaEdit, FaExternalLinkSquareAlt } from "react-icons/fa";
 
 import {
   ColumnDef,
@@ -167,10 +168,10 @@ export function DataTable<TData, TValue>({
                           <TableCell key={cell.id}>
                             <div className="flex flex-row">
                               <Button
-                                className="btn-primary px-5 text-base bg-blue-500 text-white hover:bg-green-500 mx-1"
+                                className="btn-primary px-4 text-base bg-blue-500 text-white hover:bg-green-500 me-1"
                                 onClick={() => handleEdit(row.original as any)}
                               >
-                                Editar
+                                <FaEdit />
                               </Button>
                               <Button
                                 className="btn-primary px-4 text-base bg-blue-500 text-white hover:bg-green-500"
@@ -178,7 +179,7 @@ export function DataTable<TData, TValue>({
                                   handleDetails(row.original as any)
                                 }
                               >
-                                +
+                                <FaExternalLinkSquareAlt />
                               </Button>
                             </div>
                           </TableCell>
@@ -188,10 +189,10 @@ export function DataTable<TData, TValue>({
                           <TableCell key={cell.id}>
                             <div className="flex flex-row">
                               <Button
-                                className="btn-primary px-5 text-base bg-blue-500 text-white hover:bg-green-500 mx-1"
+                                className="btn-primary px-4 text-base bg-blue-500 text-white hover:bg-green-500"
                                 onClick={() => handleArtistEdit(row.original as any)}
                               >
-                                Editar
+                                <FaEdit />
                               </Button>
                             </div>
                           </TableCell>
