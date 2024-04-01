@@ -4,7 +4,10 @@ export const config = {
   matcher: [
     "/clientes/:path*",
     "/songs/:path*",
-    "/api/:path*"
+    "/api/auth/:path*",
+    "/api/artist/:path*",
+    "/api/song/:path*",
+    // "/api/user/:path*",
   ],
 
 };

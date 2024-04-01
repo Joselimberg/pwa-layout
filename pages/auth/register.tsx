@@ -29,7 +29,7 @@ const Register = () => {
       return;
     }
 
-    await signIn("credentials", { email, password });
+    // await signIn("credentials", { email, password });
   };
 
   const {

@@ -261,14 +261,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   console.log(role);
 
-  if (role !== "a") {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
+  // if (role !== "a") {
+  //   return {
+  //     redirect: {
+  //       destination: "/",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
   const id_user = (session as any).user.id;
 

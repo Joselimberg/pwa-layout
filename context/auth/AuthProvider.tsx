@@ -5,7 +5,7 @@ import axios from "axios";
 
 import { AuthContext, authReducer } from "./";
 import { IUser } from "../../interfaces";
-import { exampleApi} from "../../api";
+import { exampleApi } from "../../api";
 
 export interface AuthState {
   isLoggedIn: boolean;
@@ -41,17 +41,18 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       await exampleApi.post("/user/register", {
         name,
         email,
-        password
+        password,
       });
 
       return {
         hasError: false,
       };
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
         return {
           hasError: true,
-          message: error.message,
+          message: (error as any).response.data.message,
         };
       }
 
@@ -61,8 +62,6 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       };
     }
   };
-
-  
 
   const logout = () => {
     signOut();

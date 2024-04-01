@@ -27,6 +27,22 @@ const registerSong = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
     } = req.body;
 
 
+    const n_songs = await prisma.song.count({
+        where: {
+            id_user,
+            user: {
+                role: 'c'
+            }
+        },
+    })
+
+    if (n_songs >= 10) {
+        return res.status(400).json({
+            message: 'Número de canciones máximas alcanzado'
+        });
+    }
+
+
 
     const existeSong = await prisma.song.findFirst({
         where: {
