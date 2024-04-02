@@ -87,6 +87,11 @@ const SongRegisterPage: React.FC<SongRegisterPageProps> = ({ id_user }) => {
         }
         if (data.length > 255) {
           console.log("Numero de caracteres máximo alcanzado");
+          setShowError(true);
+          setErrorMessage("Numero de caracteres máximo alcanzado");
+          setTimeout(() => {
+            setShowError(false);
+          }, 3000);
         }
       }
     }
