@@ -51,7 +51,7 @@ const SongEditModal: React.FC<SongEditModalProps> = ({
     // Mostrar la alerta de confirmación al usuario
     const result = await Swal.fire({
       title: "¿Estás seguro?",
-      text: "Una vez eliminado, no podrás recuperar este pago.",
+      text: "Una vez eliminada, no podrás recuperar esta canción.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -63,7 +63,6 @@ const SongEditModal: React.FC<SongEditModalProps> = ({
     // Si el usuario confirma, proceder con la eliminación
     if (result.isConfirmed) {
       try {
-        // Obtener el ID del pago seleccionado
         const song_id = selectedRecord?.id;
 
         await exampleApi.delete(`/song/delete/${song_id}`,);
@@ -71,7 +70,7 @@ const SongEditModal: React.FC<SongEditModalProps> = ({
         // Mostrar una alerta de éxito
         await Swal.fire({
           title: "¡Eliminación exitosa!",
-          text: "El pago se ha eliminado correctamente.",
+          text: "La canción se ha eliminado correctamente.",
           icon: "success",
           confirmButtonText: "Ok",
           allowOutsideClick: false,
@@ -82,7 +81,7 @@ const SongEditModal: React.FC<SongEditModalProps> = ({
         // Mostrar una alerta de error si la eliminación falla
         await Swal.fire({
           title: "Error",
-          text: "Ha ocurrido un error al eliminar el pago.",
+          text: "Ha ocurrido un error al eliminar la canción.",
           icon: "error",
           confirmButtonText: "Ok",
           allowOutsideClick: false,
