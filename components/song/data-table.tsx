@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import queryString from "query-string";
 import { FaEdit, FaExternalLinkSquareAlt } from "react-icons/fa";
+import { GrNext, GrPrevious } from "react-icons/gr";
 
 import {
   ColumnDef,
@@ -234,7 +235,7 @@ export function DataTable<TData, TValue>({
             }}
             disabled={pageIndex === 0}
           >
-            Anterior
+            <GrPrevious />
           </Button>
           <Button
             variant="outline"
@@ -242,7 +243,7 @@ export function DataTable<TData, TValue>({
             onClick={() => setPageIndex(pageIndex + 1)}
             disabled={pageIndex >= pageLimit - 1}
           >
-            Siguiente
+            <GrNext />
           </Button>
         </div>
       </div>
