@@ -31,19 +31,22 @@ export const columns: ColumnDef<ISong>[] = [
       // Verifica si hay enlaces en la matriz
       if (links && links.length > 0) {
         return (
-          <ul>
-            {links.map((link, index) => (
-              <li key={index}>
-                <a href={link.url} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-900"
-                >
+          <div className="max-h-36 max-w-sm overflow-scroll">
+            <ul>
+              {links.map((link, index) => (
+                <li key={index} className="p-1">
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-900"
+                  >
                   {link.url}
-                </a>
-              </li>
-            ))}
-          </ul>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         );
       } else {
         return "No hay enlaces disponibles";

@@ -72,10 +72,23 @@ const SongRegisterPage: React.FC<SongRegisterPageProps> = ({ id_user }) => {
 
   const addLink = (data: string) => {
     if (data.trim() !== "") {
-      const newLink = { url: data };
-      setLinklist((prevLinkList) => [...prevLinkList, newLink]);
-      // Limpiar el campo de entrada después de agregar un enlace
-      setValue("links", "");
+      if (linklist.length < 10 && data.length <= 255) {
+        const newLink = { url: data };
+        setLinklist((prevLinkList) => [...prevLinkList, newLink]);
+        setValue("links", ""); // Limpiar el campo de entrada después de agregar un enlace
+      } else {
+        if (linklist.length >= 10) {
+          console.log("Numero de links máximo alcanzado");
+          setShowError(true);
+          setErrorMessage("Número de links máximo alcanzado");
+          setTimeout(() => {
+            setShowError(false);
+          }, 3000);
+        }
+        if (data.length > 255) {
+          console.log("Numero de caracteres máximo alcanzado");
+        }
+      }
     }
   };
 
@@ -139,7 +152,9 @@ const SongRegisterPage: React.FC<SongRegisterPageProps> = ({ id_user }) => {
                 </div>
                 {!!errors.artist ? (
                   <div className="mb-4">
-                    <span className="text-red-700">{errors.artist.message}</span>
+                    <span className="text-red-700">
+                      {errors.artist.message}
+                    </span>
                   </div>
                 ) : (
                   <div className="mb-4"></div>
@@ -211,7 +226,7 @@ const SongRegisterPage: React.FC<SongRegisterPageProps> = ({ id_user }) => {
                     Agregar Enlace
                   </button>
 
-                  <div className="form-input w-full border-2 border-gray-300 rounded px-1 py-1">
+                  <div className="form-input w-full border-2 border-gray-300 rounded px-1 py-1 h-52 overflow-scroll">
                     {linklist.map((link, index) => (
                       <div className="flex flex-row border" key={index}>
                         <button

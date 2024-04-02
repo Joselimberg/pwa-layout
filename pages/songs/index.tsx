@@ -17,7 +17,7 @@ const SongsPage: React.FC<SongsPageProps> = ({ id_user }) => {
     <ClientLayout title="Clientes">
       <h1 className="text-5xl mb-5">Control de canciones</h1>
 
-      <div className="flex flex-row justify-start ">
+      <div className="flex flex-row justify-start ms-2">
         <button
           className="btn-primary py-2 px-2 text-4xl bg-blue-500 text-white hover:bg-green-500"
           onClick={() => {
@@ -27,7 +27,7 @@ const SongsPage: React.FC<SongsPageProps> = ({ id_user }) => {
         <FaFolderPlus />
         </button>
       </div>
-      <div className="flex flex-row justify-start border overflow-x-scroll mt-2">
+      <div className="flex flex-row justify-start border mt-2 mx-2">
         <DataTable columns={columns} id_user={id_user} />
       </div>
     </ClientLayout>
