@@ -1,23 +1,50 @@
-# Progressive Web App Example
+# PWA Layout with Next.js
 
-This example uses [`next-pwa`](https://github.com/shadowwalker/next-pwa) to create a progressive web app (PWA) powered by [Workbox](https://developers.google.com/web/tools/workbox/).
+This project is a Progressive Web App (PWA) layout built with Next.js, TypeScript, and integrates various technologies to create a modern web application experience.
 
-## Deploy your own
+## Technologies Used
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+- **Next.js**: A React framework for building server-side rendered (SSR) and statically generated (SSG) applications.
+- **TypeScript**: A statically typed superset of JavaScript that adds type annotations and other features to the language.
+- **PWA Compatibility**: The application is designed to be Progressive Web App compatible, enhancing user experience with features such as offline support, push notifications, and more.
+- **Prisma ORM**: Prisma is used as the Object-Relational Mapping (ORM) tool to interact with the MySQL database.
+- **MySQL**: The project connects to a MySQL database to store and manage application data.
+- **Tailwind CSS**: A utility-first CSS framework used for styling the components and layout of the application.
+- **NextAuth**: NextAuth provides authentication services, enabling features like social authentication, email/password authentication, and more.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/progressive-web-app&project-name=progressive-web-app&repository-name=progressive-web-app)
+## Getting Started
 
-## How to use
+Follow these steps to get the project up and running on your local machine:
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+1. **Clone the repository**:
 
-```bash
-npx create-next-app --example progressive-web-app progressive-web-app
-# or
-yarn create next-app --example progressive-web-app progressive-web-app
-# or
-pnpm create next-app --example progressive-web-app progressive-web-app
-```
+   ```bash
+   git clone https://github.com/Joselimberg/pwa-layout.git
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+2. **Install dependencies**:
+
+   ```bash
+   cd pwa-layout
+   npm install
+
+3. **Set up environment variables**:
+
+   You'll need to set up environment variables for database connection and authentication. Create a `.env.local` file in the root directory and add your environment variables. Here's an example:
+
+   ```plaintext
+   DATABASE_URL="mysql://user:password@localhost:3306/database"
+   NEXTAUTH_URL="http://localhost:3000"
+
+4. **Set up the database schema with Prisma**:
+
+   Before running the application, you'll need to set up the database schema using Prisma migrations. Make sure your database connection is configured correctly in your `.env.local` file. Then, run the following commands:
+
+   ```bash
+   npx prisma migrate dev
+
+5. **Run the development server**:
+
+   ```bash
+   npm run dev
+
+Open http://localhost:3000 in your browser to view the application.
